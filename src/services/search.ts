@@ -1,4 +1,3 @@
-import ky from "https://unpkg.com/ky/index.js";
 import { printColumns } from "../util/format.ts";
 import { getID } from "./common.ts";
 import { ListOptions } from "./list.ts";
@@ -8,7 +7,7 @@ export async function search(
   term: string,
   options: ListOptions,
 ) {
-  const response = await ky.get(
+  const response = await fetch(
     `https://swapi.dev/api/${entity}/?search=${term}&page=${options.page}`,
   );
   const data = await response.json();
