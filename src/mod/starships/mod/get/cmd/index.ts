@@ -1,4 +1,4 @@
-import { Args } from "../../../../../util/cli.ts";
+import { Handler } from "../../../../../util/cli.ts";
 import { Entities } from "../../../../../util/entities.ts";
 import { get } from "../../../../../services/get.ts";
 
@@ -10,7 +10,7 @@ export const flags = {
   json: "Display raw json data",
 };
 
-export const handler = async (args: Args) => {
+export const handler: Handler = async (args) => {
   const id = args._[0].toString();
   const json = args.json || args.J;
 

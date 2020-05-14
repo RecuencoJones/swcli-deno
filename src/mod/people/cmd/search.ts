@@ -1,8 +1,8 @@
-import { Args, CLIError } from "../../../util/cli.ts";
+import { Handler, CLIError } from "../../../util/cli.ts";
 import { Entities } from "../../../util/entities.ts";
 import { search } from "../../../services/search.ts";
 
-export const handler = async (args: Args) => {
+export const handler: Handler = async (args) => {
   const term = args._[0].toString();
 
   if (!term) {

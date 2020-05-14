@@ -1,4 +1,4 @@
-import { Args } from "../../../util/cli.ts";
+import { Handler } from "../../../util/cli.ts";
 import { Entities } from "../../../util/entities.ts";
 import { list } from "../../../services/list.ts";
 
@@ -10,7 +10,7 @@ export const flags = {
   json: "Display raw json data",
 };
 
-export const handler = async (args: Args) => {
+export const handler: Handler = async (args) => {
   const page = (args.page || args.P) ? parseInt(args.page || args.p) : 1;
   const json = args.json || args.J;
   const pagination = args.pagination || args.P;

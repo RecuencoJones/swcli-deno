@@ -1,13 +1,12 @@
 import { parse, Args } from "https://deno.land/std/flags/mod.ts";
 import { printColumns } from "../util/format.ts";
-export { Args } from "https://deno.land/std/flags/mod.ts";
 
 export type Handler = (args: Args) => void | Promise<void>;
 
 export interface CLI {
   version(str: string): CLI;
   description(str: string): CLI;
-  mod(builderOrOptions: ModOptions["builder"] | ModOptions): CLI;
+  mod(nameOrOptions: ModOptions["name"] | ModOptions): CLI;
   cmd(name: string, handlerOrOptions: CmdOptions["handler"] | CmdOptions): CLI;
   handler(handlerOrOptions: CmdOptions["handler"] | CmdOptions): CLI;
   parse(): void;
@@ -22,8 +21,9 @@ export type CmdOptions = {
 };
 
 export type ModOptions = {
+  name: string;
   description?: string;
-  builder: (parent: CLI) => CLI;
+  builder: (mod: CLI) => CLI;
 };
 
 function formatCommandLine(cliName: string, cmd: CmdOptions) {
@@ -151,18 +151,10 @@ class InternalCLIModule implements CLI {
     return this;
   }
 
-  mod(builderOrOptions: ModOptions["builder"] | ModOptions) {
-    let options: ModOptions;
-
-    if (typeof builderOrOptions === "function") {
-      options = {
-        builder: builderOrOptions,
-      };
-    } else {
-      options = builderOrOptions;
-    }
-
-    const mod = options.builder(this) as InternalCLIModule;
+  mod(options: ModOptions) {
+    const mod = options.builder(
+      createModule(options.name, this),
+    ) as InternalCLIModule;
 
     this._modules[mod.shortName] = mod;
 
