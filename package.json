@@ -1,0 +1,16 @@
+{
+  "name": "swcli",
+  "version": "0.1.0",
+  "scripts": {
+    "cli": "deno run --allow-net src/swcli.ts",
+    "fmt": "deno fmt src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run fmt"
+    }
+  },
+  "devDependencies": {
+    "husky": "4.2.5"
+  }
+}
